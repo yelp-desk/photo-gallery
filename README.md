@@ -4,10 +4,10 @@
 
 ## Related Projects
 
-  - https://github.com/teamName/repo
-  - https://github.com/teamName/repo
-  - https://github.com/teamName/repo
-  - https://github.com/teamName/repo
+  - https://github.com/yelp-desk/photo-gallery
+  - https://github.com/yelp-desk/jumbo-card
+  - https://github.com/yelp-desk/calendar
+  - https://github.com/yelp-desk/Customer-Reviews
 
 ## Table of Contents
 
