@@ -5,14 +5,19 @@ class App extends React.Component{
     super(props)
 
     this.state = {
-      is: 'it'
+      fileNames: ['https://s3.amazonaws.com/photo-gallery-container/elder-hacker.jpg',
+       'https://s3.amazonaws.com/photo-gallery-container/horse-hacker.jpg',
+       'https://s3.amazonaws.com/photo-gallery-container/skeleton-hacker.jpg']
     }
   }
 
   render() {
     return (
     <div>
-      hello world
+      {this.state.fileNames.map((name) => {
+        return <div class="hello">hey hi hello</div>
+        // return <img src={name}/>
+      })}
     </div>
     )
   }
