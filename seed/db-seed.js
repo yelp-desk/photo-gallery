@@ -1,5 +1,6 @@
 const db = require('../db/index.js');
 let mongoose = require('mongoose');
+const faker = require('faker');
 const PhotoList = mongoose.model('PhotoList', db.PhotoListSchema);
 
 (() => {
@@ -16,16 +17,16 @@ const PhotoList = mongoose.model('PhotoList', db.PhotoListSchema);
     for (var j = 0; j < maxPhotos; j++) {
       let obj = {
         img: `https://s3.amazonaws.com/photo-gallery-container/${randomNum(100).toString().padStart(3, '0')}.jpg`,
-        caption: 'wow! amazing!',
+        caption: faker.random.words(),
         date: `${randomNum(12)}-${randomNum(31)}-${randomNum(19, 0)}`,
-        helpfulRates: randomNum(100), //Or this
+        helpfulRates: randomNum(100), 
         unhelpfulRates: randomNum(100),
         posterInfo: { 
-          avatar: `https://s3.amazonaws.com/photo-gallery-container/${randomNum(100).toString().padStart(3, '0')}.jpg`,
+          avatar: faker.image.avatar(),
           username: names[randomNum(names.length - 1, 0)],
           friends: randomNum(1000),
           stars: randomNum(1000),
-          profile: `https://s3.amazonaws.com/photo-gallery-container/${randomNum(100).toString().padStart(3, '0')}.jpg`
+          profile: faker.internet.url()
         },
       }
       photosArray.push(obj);
