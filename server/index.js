@@ -22,7 +22,7 @@ app.post('/api/photo-gallery-list-add', (req, res) => { //Used to populate page,
       res.json(result);
     }
   });
-})
+});
 
 app.post('/api/photo-gallery-list-add/:restId', (req, res) => { //Probably won't be implemented on FDC, stretch goal
   addPhotos(req.body, req.params.restId, (err, result) => {
@@ -32,7 +32,7 @@ app.post('/api/photo-gallery-list-add/:restId', (req, res) => { //Probably won't
       res.sendStatus(200);
     }
   });
-})
+});
 
 app.get('/api/photo-gallery-list/:restId', (req, res) => { //The main bad boy to load initially
   grabPhotosFromOne(req.params.restId, (err, result) => {
@@ -42,7 +42,7 @@ app.get('/api/photo-gallery-list/:restId', (req, res) => { //The main bad boy to
       res.json(result);
     }
   });
-})
+});
 
 app.get('/api/photo-gallery-list', (req, res) => { //Just for testing subsequent posts
   grabPhotosFromAll((err, result) => {
@@ -52,7 +52,7 @@ app.get('/api/photo-gallery-list', (req, res) => { //Just for testing subsequent
       res.json(result);
     }
   });
-})
+});
 
 app.listen(PORT, () => {
   console.log(`now listening on ${PORT}`)

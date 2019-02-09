@@ -1,55 +1,54 @@
-const mongoose = require('mongoose');
+let mongoose = require('mongoose');
 
 mongoose.connect('mongodb://localhost/photo-gallery-container');
 
 
-var PhotoSchema = new mongoose.Schema({
-  img: String, /*('a link to img on S3 server, assuming I understand how S3 works properly')*/
+const PhotoSchema = new mongoose.Schema({
+  img: String, /*a link to img on S3 server, assuming I understand how S3 works properly*/
   caption: String,
   date: Date, //Will order them by either this
   helpfulRates: Number, //Or this
   unhelpfulRates: Number,
   posterInfo: { //Could also be its own schema?
-    avatar: String, //(also to an img),
+    avatar: String, //also to an img,
     username: String,
     friends: Number,
     stars: Number,
-    profile: String //(link to profile)
-  }
+    profile: String //link to profile
+  },
 });
 
-var PhotoListSchema = new mongoose.Schema({ 
+const PhotoListSchema = new mongoose.Schema({ 
   restId: Number, //restaurant id, should be universal across all modules
   photos: [PhotoSchema] //The schema knows that each member in this array will have PhotoSchema's shape
 });
 
-let PhotoList = mongoose.model('PhotoList', PhotoListSchema);
+const PhotoList = mongoose.model('PhotoList', PhotoListSchema);
 
-let createList = (uploadList, callback) => {
-  let count = PhotoList.estimatedDocumentCount({}, (err, result) => { // No need for external counter variable
+const createList = (uploadList, callback) => {
+  PhotoList.estimatedDocumentCount({}, (err, result) => { // No need for external counter variable
     if (err) {
       callback(err);
     } else {
-      count = result++ || 1
+      const count = result++ || 1;
       PhotoList.create({
         restId: result,
-        photos: uploadList
-      }, addPhotos(uploadList, count, (err, result) => { 
+        photos: uploadList,
+      }, addPhotos (uploadList, count, (err, result) => { 
         if (err) {
           console.log(err);
           callback(err);
         } else {
           callback(null, result);
         }
-        count++
-        })
+      })
       );  
     }
   });
 }
 
 let addPhotos = (photoObjs, id, callback) => {
-  PhotoList.update(
+  PhotoList.update (
     {restId: id},
     {"$push": {photos: {"$each": photoObjs}}}, // Adds any number of photos, be it 1 or 100 as long as it is in an array
     (err, result) => {
@@ -77,5 +76,7 @@ module.exports = {
   createList,
   addPhotos, 
   grabPhotosFromOne,
-  grabPhotosFromAll
+  grabPhotosFromAll,
+  PhotoSchema,
+  PhotoListSchema
 }
