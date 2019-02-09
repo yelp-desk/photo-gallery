@@ -4,10 +4,10 @@
 
 ## Related Projects
 
-  - https://github.com/yelp-desk/photo-gallery
-  - https://github.com/yelp-desk/jumbo-card
-  - https://github.com/yelp-desk/calendar
-  - https://github.com/yelp-desk/Customer-Reviews
+  - https://github.com/yum-eats/photo-gallery
+  - https://github.com/yum-eats/jumbo-card
+  - https://github.com/yum-eats/calendar
+  - https://github.com/yum-eats/Customer-Reviews
 
 ## Table of Contents
 

@@ -51,9 +51,8 @@ const PhotoList = mongoose.model('PhotoList', db.PhotoListSchema);
           process.exit();
           return;
         }
-      })
+      });
     }
-  })
+  });
   return;
 })()
-
