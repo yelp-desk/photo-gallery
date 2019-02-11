@@ -1,54 +1,47 @@
-import React from 'react';
+import React, { useState, useEffect } from 'react';
 import $ from 'jquery';
 
-class App extends React.Component {
-  constructor(props) {
-    super(props)
+function App() {
+  
+  const [restaurantId, updateId] =  useState(1);
+  const [photos, updatePhotos] = useState([]);
+  const [visiblePhotos, updateVisbles] = useState([]);
+  const [currentPhoto, updateCurrent] = useState(0);
 
-    this.state =  {
-      restaurantId: 1,
-      photos: [],
-      currentPhoto: 0,
-    }
-
-    this.storePhotos.bind(this);
-  }
-
-  storePhotos(photoSet) {
-    this.setState({photos: photoSet})
-  }
-
-  componentDidMount() {
+  useEffect(() => {
     let newId = Math.floor(Math.random() * (100));
+    updateId(newId);
+  }, [])
+  
+  useEffect(() => {    
+    $.ajax({
+      method: "GET",
+      url: `/api/photo-gallery-list/${restaurantId}`,
+      contentType: "application/json",
+      success: (restData) => {
+        console.log('we did it!');
+        updatePhotos(restData.photos);
+      }, 
+      error: (err) => {
+        console.log('something went wrong', err);
+      }
+    })
+  }, [restaurantId])
 
-    this.setState({
-      restaurantId: newId
-    }, () => {
-      $.ajax({
-        method: "GET",
-        url: `/api/photo-gallery-list/${this.state.restaurantId}`,
-        contentType: "application/json",
-        success: (restData) => {
-          console.log('we did it!');
-          this.storePhotos(restData.photos);
-        }, 
-        error: (err) => {
-          console.log('something went wrong', err);
-        }
-      })
-    });
+  useEffect(() => {
+    console.log('slice was updated')
+    let visibleArray = photos.slice(currentPhoto, currentPhoto + 3)
+    updateVisbles(visibleArray);
+  }, [photos])
 
-  }
+  return (
+  <div>
+    {visiblePhotos.map((photo) => {
+      return <img src={photo.img}></img>
+    })}
+  </div>
+  )
 
-  render() {
-    return (
-    <div>
-      {this.state.photos.slice(this.state.currentPhoto, this.state.currentPhoto + 3).map((photo) => {
-        return <img src={photo.img}></img>
-      })}
-    </div>
-    )
-  }
 }
 
 export default App;
