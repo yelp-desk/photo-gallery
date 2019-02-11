@@ -2,10 +2,28 @@
   color: red;
 } */
 
+/* img {
+  max-height: 320px;
+  max-width: 320px
+
+  intrinsic: 348 x 348
+  size: 250 x 250
+} */
+
 img {
-  size: 320px, 320px
+  max-width: 100%;
+  max-height: 100%;
 }
 
-div {
-  color: red;
+.photoContainer {
+  max-height: 320px;
+  max-width: 320px;
+  object-fit: cover;
+}
+
+.slideShowContainer {
+  display: flex;
+  flex-direction: row;
+  max-height: 220px;
+  max-width: 660px;
 }
