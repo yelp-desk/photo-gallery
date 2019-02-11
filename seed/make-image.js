@@ -7,7 +7,7 @@ let sizeArray = [240, 360, 480, 720, 1020];
 let topicArray = ['cat', 'dog', 'food', 'lady', 'grass', 'baby', 'video-game', 'theater']
 
 
-for (var i = 1; i <= 100; i++) {
+for (var i = 1; i <= 100; i++) { //This was just used once to populate a local directory.  I then uploaded those files into my S3 bucket.
   let a = sizeArray[Math.floor(Math.random() * sizeArray.length)];
   let b = sizeArray[Math.floor(Math.random() * sizeArray.length)];
   let c = topicArray[Math.floor(Math.random() * topicArray.length)];

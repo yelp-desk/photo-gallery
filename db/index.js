@@ -4,12 +4,12 @@ mongoose.connect('mongodb://localhost/photo-gallery-container');
 
 
 const PhotoSchema = new mongoose.Schema({
-  img: String, /*a link to img on S3 server, assuming I understand how S3 works properly*/
+  img: String, /*a link to img on S3 server*/
   caption: String,
   date: Date, //Will order them by either this
   helpfulRates: Number, //Or this
   unhelpfulRates: Number,
-  posterInfo: { //Could also be its own schema?
+  posterInfo: {
     avatar: String, //also to an img,
     username: String,
     friends: Number,
