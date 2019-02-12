@@ -39,7 +39,13 @@ function App() {
     {visiblePhotos.map((photo) => {
       return (
         <div className="photoContainer">
-          <img src={photo.img}></img>
+          <div className="imageContainer">
+            <img className="mainPhoto" src={photo.img}></img>
+          </div>
+          <div className="photoOverlay">
+            <img className="avatar" src={photo.posterInfo.avatar}></img>
+            <span className="photoCaption">{photo.caption} by <strong>{photo.posterInfo.username}</strong></span>
+          </div>
         </div>
       )
     })}

@@ -22,6 +22,7 @@ module.exports = {
           'css-loader',
         ],
       }
-    ]
-  }
+    ],
+  },
+  // mode: development
 };

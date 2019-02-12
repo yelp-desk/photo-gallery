@@ -16,7 +16,7 @@ const PhotoList = mongoose.model('PhotoList', db.PhotoListSchema);
     let photosArray = [];
     for (var j = 0; j < maxPhotos; j++) {
       let obj = { //generates random photos, with appropriate information
-        img: `https://s3.amazonaws.com/photo-gallery-container/${randomNum(100).toString().padStart(3, '0')}.jpg`,
+        img: `https://s3.amazonaws.com/yum-eats-photos/${randomNum(100).toString().padStart(3, '0')}.jpg`,
         caption: faker.random.words(),
         date: `${randomNum(12)}-${randomNum(31)}-${randomNum(19, 0)}`,
         helpfulRates: randomNum(100), 
