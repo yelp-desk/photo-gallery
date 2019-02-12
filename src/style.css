@@ -1,29 +1,28 @@
-/* .hello {
-  color: red;
-} */
-
-/* img {
-  max-height: 320px;
-  max-width: 320px
-
+/*
   intrinsic: 348 x 348
   size: 250 x 250
 } */
 
-img {
-  max-width: 100%;
-  max-height: 100%;
-}
-
-.photoContainer {
-  max-height: 320px;
-  max-width: 320px;
-  object-fit: cover;
-}
-
 .slideShowContainer {
   display: flex;
   flex-direction: row;
-  max-height: 220px;
-  max-width: 660px;
+  height: 320px;
+  width: 660px;
+}
+
+.photoContainer {
+  height: 348px;
+  width: 348px;
+  object-fit: cover;
+}
+
+img:hover {
+  height: 348px;
+  width: 348px;
+}
+
+img {
+  width: 250px;
+  height: 250px;
+  transition: .2s
 }
