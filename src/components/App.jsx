@@ -36,10 +36,18 @@ function App() {
 
   return (
   <div className="slideShowContainer">
-    {visiblePhotos.map((photo) => {
+    {visiblePhotos.map((photo, index) => {
+      if (index === 0) {
+        var arrowClass = "prevArrow"
+      } else if (index === 2) {
+        var arrowClass = "nextArrow"
+      }
       return (
         <div className="photoContainer">
           <div className="imageContainer">
+          {index !== 1 &&
+            <img className={`arrow ${arrowClass}`} src='https://s3.amazonaws.com/yum-eats-photos/arrow.png'></img>
+          }
             <img className="mainPhoto" src={photo.img}></img>
           </div>
           <div className="photoOverlay">
@@ -51,7 +59,6 @@ function App() {
     })}
   </div>
   )
-
 }
 
 export default App;

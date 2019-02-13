@@ -64,6 +64,20 @@ img.avatar {
   padding: 10px;
 }
 
-/* .featuredPhoto {
-  height: 1000px;
-} */
+img.arrow {
+  height: 17%;
+  width: 17%;
+  z-index: 250;
+  position: absolute;
+  filter: invert(1);
+}
+
+img.prevArrow {
+  transform: scaleX(-1);
+  top: 40%
+}
+
+img.nextArrow {
+  top: 40%;
+  right: 0;
+}
