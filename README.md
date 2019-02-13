@@ -4,10 +4,10 @@
 
 ## Related Projects
 
-  - https://github.com/teamName/repo
-  - https://github.com/teamName/repo
-  - https://github.com/teamName/repo
-  - https://github.com/teamName/repo
+  - https://github.com/yum-eats/photo-gallery
+  - https://github.com/yum-eats/jumbo-card
+  - https://github.com/yum-eats/calendar
+  - https://github.com/yum-eats/Customer-Reviews
 
 ## Table of Contents
 
