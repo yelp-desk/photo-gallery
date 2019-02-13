@@ -8,6 +8,7 @@ function App() {
   const [currentPhotos, updateCurrents] = useState([]);
   const [nextPhotos, updateNexts] = useState([]);
   const [mainPhoto, updateMainPhoto] = useState(0);
+  const [expandedNum, updateExpandedNum] = useState(1);
 
   useEffect(() => { //Loads a random restaurant ID upon loading the page, will be replaced when all modules are comined
     let newId = Math.floor(Math.random() * (100));
@@ -22,9 +23,6 @@ function App() {
       success: (restData) => {
         console.log('we did it!');
         updatePhotos(restData.photos);
-        // updatePrevs(makePhotoArray(restData.photos.length - 1));
-        // updateCurrents(makePhotoArray(0));
-        // updateNexts(makePhotoArray(1));
       }, 
       error: (err) => {
         console.log('something went wrong', err);
@@ -87,21 +85,44 @@ function App() {
     }
   }
 
+  useEffect(() => {
+    let new = document.getElementsByClassName(`photoContainer ${expandedNum}`)[0];
+    if (main) {
+      let old = document.getElementsByClassName('hoverEffect')[0];
+      old.classList.toggle('hoverEffect');
+      new.classList.toggle('hoverEffect');
+    }
+  }, [expandedNum, photos])
+
   function expandElement(event) {
-    console.log(event.target);
+    let photoNum = event.target.className;
+    photoNum = photoNum.slice(photoNum.length - 1, photoNum.length);
+    if (Number(photoNum) !== expandedNum) {
+      console.log(photoNum);
+      
+      updateExpandedNum(Number(photoNum));
+    }
+  }
+
+  function shrinkElement(event) {
+    updateExpandedNum(1);
   }
 
   return (
   <div className="slideShowContainer">
-    {currentPhotos.map((photo) => {
+    {currentPhotos.map((photo, index) => {
+      let photoContainerClass = `photoContainer ${index}`
+      if (index === 1) {
+        photoContainerClass = photoContainerClass + ' hoverEffect'
+      }
       return (
-        <div className="photoContainer" onMouseEnter={expandElement}>
-          <div className="imageContainer">
-            <img className="mainPhoto" src={photo.img}></img>
+        <div className={photoContainerClass} onMouseEnter={expandElement} onMouseLeave={shrinkElement}>
+          <div className={`imageContainer ${index}`}>
+            <img className={`mainPhoto ${index}`} src={photo.img}></img>
           </div>
-          <div className="photoOverlay">
-            <img className="avatar" src={photo.posterInfo.avatar}></img>
-            <span className="photoCaption">{photo.caption} by <strong>{photo.posterInfo.username}</strong></span>
+          <div className={`photoOverlay ${index}`}>
+            <img className={`avatar ${index}`} src={photo.posterInfo.avatar}></img>
+            <span className={`photoCaption ${index}`}>{photo.caption} by <strong className={`${index}`}>{photo.posterInfo.username}</strong></span>
           </div>
         </div>
       )

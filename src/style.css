@@ -35,15 +35,23 @@
   max-height: 100%;
 }
 
-.photoContainer:hover {
-  /* hover transformation */
+/* hover transformation */
+/* .photoContainer:hover {
   position: relative;
   transform: scale(1.2);
   z-index: 225;
   display: flex;
+} */
+
+.hoverEffect {
+  position: relative;
+  transform: scale(1.2);
+  z-index: 225;
+  display: flex;
+  opacity: 1;
 }
 
-.photoContainer:hover .photoOverlay {
+.hoverEffect .photoOverlay {
   opacity: 1;
 }
 
