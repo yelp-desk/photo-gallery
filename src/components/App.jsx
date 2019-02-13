@@ -4,8 +4,10 @@ import $ from 'jquery';
 function App() {
   const [restaurantId, updateId] =  useState(null); 
   const [photos, updatePhotos] = useState([]);
-  const [visiblePhotos, updateVisbles] = useState([]);
-  const [currentPhoto, updateCurrent] = useState(0);
+  const [prevPhotos, updatePrevs] = useState([]);
+  const [currentPhotos, updateCurrents] = useState([]);
+  const [nextPhotos, updateNexts] = useState([]);
+  const [mainPhoto, updateMainPhoto] = useState(0);
 
   useEffect(() => { //Loads a random restaurant ID upon loading the page, will be replaced when all modules are comined
     let newId = Math.floor(Math.random() * (100));
@@ -20,6 +22,9 @@ function App() {
       success: (restData) => {
         console.log('we did it!');
         updatePhotos(restData.photos);
+        // updatePrevs(makePhotoArray(restData.photos.length - 1));
+        // updateCurrents(makePhotoArray(0));
+        // updateNexts(makePhotoArray(1));
       }, 
       error: (err) => {
         console.log('something went wrong', err);
@@ -27,42 +32,70 @@ function App() {
     })
   }, [restaurantId]) //Only runs when restaurantId is updated
 
-  useEffect(() => { //The array of visible photos.  Will be used for clickign on arrows.
-    console.log('slice was updated')
-    let visibleArray;
-    if (currentPhoto === photos.length - 2) {
-      visibleArray = photos.slice(currentPhoto, currentPhoto + 2)
-      visibleArray.push(photos[0])
-    } else if (currentPhoto === photos.length - 1) {
-      visibleArray = [photos[photos.length - 1]]
-      visibleArray = visibleArray.concat(photos.slice(0, 2))
+  useEffect(() => { //The array of visible photos
+    console.log('photos were updated');
+    updatePrevs(makePhotoArray(photos.length - 1));
+    updateCurrents(makePhotoArray(0));
+    updateNexts(makePhotoArray(1));
+  }, [photos]) //updates when photos is updated and when an arrow is clicked due to mainPhoto updating
+  
+  function makePhotoArray(photoIndex) {
+    let photoArray;
+    if (photoIndex === photos.length - 2) {
+      photoArray = photos.slice(photoIndex, photoIndex + 2)
+      photoArray.push(photos[0])
+    } else if (photoIndex === photos.length - 1) {
+      photoArray = [photos[photoIndex]]
+      photoArray = photoArray.concat(photos.slice(0, 2))
     } else {
-      visibleArray = photos.slice(currentPhoto, currentPhoto + 3)
+      photoArray = photos.slice(photoIndex, photoIndex + 3)
     }
-    updateVisbles(visibleArray);
-  }, [photos, currentPhoto]) //Right now, only updates when photos is updated.  Will also update when an arrow is clicked at some point
+    return photoArray;
+  }
 
-  function handlePrevArrowClick() { //Probably some way to combine these two arrow click functions
-    if (currentPhoto === photos.length - 1) {
-      updateCurrent(0)
+  function handleArrowClick(event) {
+    if (event.target.className.includes('nextArrow')) {
+      updatePrevs(currentPhotos);
+      updateCurrents(nextPhotos);
+      if (mainPhoto === photos.length - 2) { //I'm sure theres a way to make this shorter, but I'm having a hard time wrapping my head around it rn
+        updateNexts(makePhotoArray(0));
+      } else if (mainPhoto === photos.length - 1) {
+        updateNexts(makePhotoArray(1));
+      } else {
+        updateNexts(makePhotoArray(mainPhoto + 2));
+      }
+      if (mainPhoto === photos.length - 1) {
+        updateMainPhoto(0)
+      } else {
+        updateMainPhoto(mainPhoto + 1)
+      }
     } else {
-      updateCurrent(currentPhoto + 1)
+      updateNexts(currentPhotos);
+      updateCurrents(prevPhotos);
+      if (mainPhoto >= 2) { //ditto for line 60 
+        updatePrevs(makePhotoArray(mainPhoto - 2));
+      } else if (mainPhoto === 1) {
+        updatePrevs(makePhotoArray(photos.length - 1));
+      } else {
+        updatePrevs(makePhotoArray(photos.length - 2));
+      }
+      if (mainPhoto === 0) {
+        updateMainPhoto(photos.length - 1);
+      } else {
+        updateMainPhoto(mainPhoto - 1);
+      }
     }
   }
 
-  function handleNextArrowClick() {
-    if (currentPhoto === 0) {
-      updateCurrent(photos.length - 1)
-    } else {
-      updateCurrent(currentPhoto - 1)
-    }
+  function expandElement(event) {
+    console.log(event.target);
   }
 
   return (
   <div className="slideShowContainer">
-    {visiblePhotos.map((photo) => {
+    {currentPhotos.map((photo) => {
       return (
-        <div className="photoContainer">
+        <div className="photoContainer" onMouseEnter={expandElement}>
           <div className="imageContainer">
             <img className="mainPhoto" src={photo.img}></img>
           </div>
@@ -73,8 +106,8 @@ function App() {
         </div>
       )
     })}
-    <img className={`arrow prevArrow`} src='https://s3.amazonaws.com/yum-eats-photos/arrow.png' onClick={handleNextArrowClick}></img>
-    <img className={`arrow nextArrow`} src='https://s3.amazonaws.com/yum-eats-photos/arrow.png' onClick={handlePrevArrowClick}></img>
+    <img className={`arrow prevArrow`} src='https://s3.amazonaws.com/yum-eats-photos/arrow.png' onClick={handleArrowClick}></img>
+    <img className={`arrow nextArrow`} src='https://s3.amazonaws.com/yum-eats-photos/arrow.png' onClick={handleArrowClick}></img>
   </div>
   )
 }
