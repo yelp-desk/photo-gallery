@@ -1,5 +1,10 @@
 import React, { useState, useEffect } from 'react';
 import $ from 'jquery';
+import PhotoSet from './PhotoSet.jsx';
+
+//takes about a second to transition and about every 5-8 seconds is when it does it.
+
+const AppDispatch = React.createContext(null);
 
 function App() {
   const [restaurantId, updateId] =  useState(null); 
@@ -8,7 +13,6 @@ function App() {
   const [currentPhotos, updateCurrents] = useState([]);
   const [nextPhotos, updateNexts] = useState([]);
   const [mainPhoto, updateMainPhoto] = useState(0);
-  const [expandedNum, updateExpandedNum] = useState(1);
 
   useEffect(() => { //Loads a random restaurant ID upon loading the page, will be replaced when all modules are comined
     let newId = Math.floor(Math.random() * (100));
@@ -85,46 +89,14 @@ function App() {
     }
   }
 
-  useEffect(() => {
-    let new = document.getElementsByClassName(`photoContainer ${expandedNum}`)[0];
-    if (main) {
-      let old = document.getElementsByClassName('hoverEffect')[0];
-      old.classList.toggle('hoverEffect');
-      new.classList.toggle('hoverEffect');
-    }
-  }, [expandedNum, photos])
-
-  function expandElement(event) {
-    let photoNum = event.target.className;
-    photoNum = photoNum.slice(photoNum.length - 1, photoNum.length);
-    if (Number(photoNum) !== expandedNum) {
-      console.log(photoNum);
-      
-      updateExpandedNum(Number(photoNum));
-    }
-  }
-
-  function shrinkElement(event) {
-    updateExpandedNum(1);
-  }
+  
 
   return (
   <div className="slideShowContainer">
     {currentPhotos.map((photo, index) => {
-      let photoContainerClass = `photoContainer ${index}`
-      if (index === 1) {
-        photoContainerClass = photoContainerClass + ' hoverEffect'
-      }
       return (
-        <div className={photoContainerClass} onMouseEnter={expandElement} onMouseLeave={shrinkElement}>
-          <div className={`imageContainer ${index}`}>
-            <img className={`mainPhoto ${index}`} src={photo.img}></img>
-          </div>
-          <div className={`photoOverlay ${index}`}>
-            <img className={`avatar ${index}`} src={photo.posterInfo.avatar}></img>
-            <span className={`photoCaption ${index}`}>{photo.caption} by <strong className={`${index}`}>{photo.posterInfo.username}</strong></span>
-          </div>
-        </div>
+          <PhotoSet index={index} 
+                    photo={photo}/>
       )
     })}
     <img className={`arrow prevArrow`} src='https://s3.amazonaws.com/yum-eats-photos/arrow.png' onClick={handleArrowClick}></img>
@@ -134,3 +106,19 @@ function App() {
 }
 
 export default App;
+
+// let photoContainerClass = `photoContainer ${index}`
+//       if (index === 1) { //Ensures that photo 1 is expanded by default
+//         photoContainerClass = photoContainerClass + ' hoverEffect'
+//       }
+//       return (
+//         <div className={photoContainerClass} onMouseEnter={expandElement} onMouseLeave={shrinkElement}>
+//           <div className={`imageContainer ${index}`}>
+//             <img className={`mainPhoto ${index}`} src={photo.img}></img>
+//           </div>
+//           <div className={`photoOverlay ${index}`}>
+//             <img className={`avatar ${index}`} src={photo.posterInfo.avatar}></img>
+//             <span className={`photoCaption ${index}`}>{photo.caption} by <strong className={`${index}`}>{photo.posterInfo.username}</strong></span>
+//           </div>
+//         </div>
+//       )

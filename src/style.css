@@ -35,14 +35,6 @@
   max-height: 100%;
 }
 
-/* hover transformation */
-/* .photoContainer:hover {
-  position: relative;
-  transform: scale(1.2);
-  z-index: 225;
-  display: flex;
-} */
-
 .hoverEffect {
   position: relative;
   transform: scale(1.2);
