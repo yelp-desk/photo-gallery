@@ -93,12 +93,30 @@ function App() {
 
   return (
   <div className="slideShowContainer">
-    {currentPhotos.map((photo, index) => {
-      return (
-          <PhotoSet index={index} 
-                    photo={photo}/>
-      )
-    })}
+    <div className="currentView">
+      {currentPhotos.map((photo, index) => {
+        console.log(currentPhotos.length, 'doing currents')
+        return (
+          <PhotoSet index={index} photo={photo}/>
+        )
+      })}   
+    </div>
+    <div className="prevView">
+      {prevPhotos.length === 3 && prevPhotos.map((photo, index) => { //for some reason, it won't do prevs on its own, so i added the conditional
+        console.log(prevPhotos.length, 'doing prevs')
+        return (
+          <PhotoSet index={index} photo={photo}/>
+        )
+      })}
+    </div>
+    <div className="nextView">
+      {nextPhotos.map((photo, index) => {
+        console.log(nextPhotos.length, 'doing nexts')
+        return (
+          <PhotoSet index={index} photo={photo}/>
+          )
+      })}
+    </div>
     <img className={`arrow prevArrow`} src='https://s3.amazonaws.com/yum-eats-photos/arrow.png' onClick={handleArrowClick}></img>
     <img className={`arrow nextArrow`} src='https://s3.amazonaws.com/yum-eats-photos/arrow.png' onClick={handleArrowClick}></img>
   </div>
@@ -106,19 +124,3 @@ function App() {
 }
 
 export default App;
-
-// let photoContainerClass = `photoContainer ${index}`
-//       if (index === 1) { //Ensures that photo 1 is expanded by default
-//         photoContainerClass = photoContainerClass + ' hoverEffect'
-//       }
-//       return (
-//         <div className={photoContainerClass} onMouseEnter={expandElement} onMouseLeave={shrinkElement}>
-//           <div className={`imageContainer ${index}`}>
-//             <img className={`mainPhoto ${index}`} src={photo.img}></img>
-//           </div>
-//           <div className={`photoOverlay ${index}`}>
-//             <img className={`avatar ${index}`} src={photo.posterInfo.avatar}></img>
-//             <span className={`photoCaption ${index}`}>{photo.caption} by <strong className={`${index}`}>{photo.posterInfo.username}</strong></span>
-//           </div>
-//         </div>
-//       )
