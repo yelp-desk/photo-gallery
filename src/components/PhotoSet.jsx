@@ -13,7 +13,11 @@ function PhotoSet(props) {
   }, [expandedNum])
 
   function expandElement(event) { //Triggers on mouseover
-    let photoNum = event.target.className;
+    // debugger;
+    let target = event.target
+    console.log(event.target);
+    target.removeAttribute('style');
+    let photoNum = target.className;
     photoNum = photoNum.slice(photoNum.length - 1, photoNum.length);
     if (Number(photoNum) !== expandedNum) { //Doesn't change anything if mouse is over currently expanded element
       updateExpandedNum(Number(photoNum));

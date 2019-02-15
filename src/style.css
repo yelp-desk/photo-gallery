@@ -19,7 +19,8 @@
   height: 100%;
   width: 100%;
   opacity: 1;
-  transition: 2s;
+  transition-property: transform, opacity;
+  transition-duration: .2s, 2s;
   opacity: 1;
 }
 
@@ -31,7 +32,8 @@
   left: 0;
   opacity: 0;
   z-index: 25;
-  transition: 2s;
+  transition-property: transform, opacity;
+  transition-duration: .2s, 2s;
 }
 
 #nextView {
@@ -42,7 +44,8 @@
   left: 0;
   opacity: 0;
   z-index: 20;
-  transition: 2s;
+  transition-property: transform, opacity;
+  transition-duration: .2s, 2s;
 }
 
 .photoContainer {
@@ -50,8 +53,18 @@
   position: absolute;
   width: 33.3%;
   height: 100%;
-  transition: .2s;
+  transition: transform .2s;
   z-index: 50;
+}
+
+.currentlyVisible {
+  z-index: 49;
+  opacity: 1 !important;
+}
+
+.invisible {
+  opacity: 0 !important;
+  z-index: 25;
 }
 
 [class*="photoContainer 0"] {
@@ -104,7 +117,7 @@ div.photoOverlay {
   color: white;
   background-color: rgba(0, 0, 0, .4);
   z-index: 100;
-  transition: .2s;
+  transition: transform .2s;
 }
 
 span.photoCaption {
