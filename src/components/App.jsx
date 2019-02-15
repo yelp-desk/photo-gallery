@@ -1,15 +1,58 @@
-import React, { useState, useEffect } from 'react';
+import React, { useState, useEffect, useReducer } from 'react';
 import PhotoSet from './PhotoSet.jsx';
 
 //takes about a second to transition and about every 5-8 seconds is when it does it.
 
+
 function App() {
+  const initialState = {previous: [], current: [], next: [], mainPhoto: 0}
+  function reducer (state, action) {
+    console.log(state);
+    let photoNum;
+    switch (action.type) {
+      case 'next':
+        let array = makePhotoArray((state.mainPhoto + 2) % photos.length)
+        console.log(array, 'hi');
+        if (state.mainPhoto === photos.length - 1) {
+          photoNum = 0
+        } else {
+          photoNum = state.mainPhoto + 1
+        }
+        return {
+          previous: state.current,
+          current: state.next,
+          next: makePhotoArray((state.mainPhoto + 2) % photos.length),
+          mainPhoto: state.mainPhoto + 1
+        };
+      case 'previous':
+        if (state.mainPhoto === 0) {
+          photoNum = photos.length - 1
+        } else {
+          photoNum = state.mainPhoto - 1
+        }
+        return {
+          previous: makePhotoArray((photos.length + (state.mainPhoto - 2)) % photos.length),
+          current: state.previous,
+          next: state.current,
+          mainPhoto: state.mainPhoto - 1
+        };
+      default:
+        if (state.previous.length > 0 || photos.length === 0) {
+          return state;
+        } else {
+          return {
+            previous: makePhotoArray(photos.length - 1),
+            current: makePhotoArray(0),
+            next: makePhotoArray(1),
+            mainPhoto: 0
+          }
+        }
+    }
+  }
+
   const [restaurantId, updateId] =  useState(null); 
   const [photos, updatePhotos] = useState([]);
-  const [prevPhotos, updatePrevs] = useState([]);
-  const [currentPhotos, updateCurrents] = useState([]);
-  const [nextPhotos, updateNexts] = useState([]);
-  const [mainPhoto, updateMainPhoto] = useState(0);
+  const [photosOfInterest, dispatch] = useReducer(reducer, initialState);
 
   useEffect(() => { //Loads a random restaurant ID upon loading the page, will be replaced when all modules are comined
     let newId = Math.floor(Math.random() * (100));
@@ -23,7 +66,6 @@ function App() {
         return restData.json();
       })
       .then((data) => {
-        console.log(data);
         updatePhotos(data.photos);
       })
       .catch((err) => {
@@ -33,54 +75,40 @@ function App() {
 
   useEffect(() => { //The array of all possibly visible photos
     console.log('photos were updated');
-    updatePrevs(makePhotoArray(photos.length - 1));
-    updateCurrents(makePhotoArray(0));
-    updateNexts(makePhotoArray(1));
+    dispatch({type: ''});
   }, [photos]) //updates when photos is updated so that these may render
 
   useEffect(() => {
-    // debugger;
     console.log('i ran!')
-    var timer = setTimeout(() => {
-      // debugger;
-      var reset = false;
-      let currentView = document.getElementById('currentView');
-      let nextView = document.getElementById('nextView');
+    let currentView = document.getElementById('currentView');
+    let nextView = document.getElementById('nextView');
+    var listener = (event) => {
+      if (event.propertyName === 'opacity' && currentView.classList.contains('invisible')) {
+        currentView.style.transitionDuration = ".2s, 0s"; //Removing the transition
+        nextView.style.transitionDuration = ".2s, 0s";
+        shiftNext();
+        
+      }
+    }
+    currentView.addEventListener("transitionend", listener);
+    var timer = setInterval(() => {
       currentView.classList.replace('currentlyVisible', 'invisible')
       nextView.classList.replace('invisible', 'currentlyVisible')
-      currentView.addEventListener("transitionend", (event) => {
-        // debugger;
-        // if (event.propertyName === 'opacity' && currentView.classList.contains('invisible')) {
-        if (!reset) {
-          reset = true;
-          // debugger;
-          currentView.style.transitionDuration = ".2s, 0s"; //Removing the transition
-          nextView.style.transitionDuration = ".2s, 0s";
-          currentView.innerHTML = '';
-          for (var i = 0; i < 3; i++) {
-            let elementToAdd = nextView.children[i].cloneNode(true); //replaces the photos from current with the ones from next behind the scenes
-            currentView.appendChild(elementToAdd)
-          }
-          currentView.classList.replace('invisible', 'currentlyVisible'); //View changes back to the currentview div
-          nextView.classList.replace('currentlyVisible', 'invisible')
-          // debugger;
-          shiftNext();
-          // resetStyle(); // So when these arrays are replaced, currentview div does not suddenly shift to something else
-        }
-      });
     }, 5000);
     return () => {
-      clearTimeout(timer); //This makes the timer stop in case this useEffect is called before it concludes
+      removeEventListener("transitionend", listener);
+      clearInterval(timer); //This makes the timer stop in case this useEffect is called before it concludes
     }
-  }, [mainPhoto, nextPhotos])
+  }, [])
 
   useEffect(() => {
     resetStyle();
-  }, [currentPhotos])
+  }, [photosOfInterest])
   
   
   function makePhotoArray(photoIndex) { //Makes an array of 3 photos to be visible via prev, current, or next
-    let photoArray;
+    let photoArray = [];
+   
     if (photoIndex === photos.length - 2) {
       photoArray = photos.slice(photoIndex, photoIndex + 2)
       photoArray.push(photos[0])
@@ -109,45 +137,33 @@ function App() {
   }
 
   function shiftNext() {
-    updatePrevs(currentPhotos);
-    updateCurrents(nextPhotos);
-    updateNexts(makePhotoArray((mainPhoto + 2) % photos.length))
-    if (mainPhoto === photos.length - 1) {
-      updateMainPhoto(0)
-    } else {
-      updateMainPhoto(mainPhoto + 1)
-    }
+    dispatch({type: 'next'})
+    currentView.classList.replace('invisible', 'currentlyVisible'); //View changes back to the currentview div
+    nextView.classList.replace('currentlyVisible', 'invisible')
   }
 
   function shiftBack() {
-    updateNexts(currentPhotos);
-    updateCurrents(prevPhotos);
-    updatePrevs(makePhotoArray((photos.length + (mainPhoto - 2)) % photos.length))
-    if (mainPhoto === 0) {
-      updateMainPhoto(photos.length - 1);
-    } else {
-      updateMainPhoto(mainPhoto - 1);
-    }
+    dispatch({type: 'previous'})
   }
 
   return (
   <div id="slideShowContainer">
     <div id="currentView" className="currentlyVisible">
-      {currentPhotos.map((photo, index) => {
+      {photosOfInterest.current.length === 3 && photosOfInterest.current.map((photo, index) => {
         return (
           <PhotoSet index={index} photo={photo}/>
         )
       })}   
     </div>
     <div id="prevView" className="invisible">
-      {prevPhotos.length === 3 && prevPhotos.map((photo, index) => { //for some reason, it won't do prevs on its own, so i added the conditional
+      {photosOfInterest.previous.length === 3 && photosOfInterest.previous.map((photo, index) => { //for some reason, it won't do prevs on its own, so i added the conditional
         return (
           <PhotoSet index={index} photo={photo}/>
         )
       })}
     </div>
     <div id="nextView" className="invisible">
-      {nextPhotos.map((photo, index) => {
+      {photosOfInterest.next.length === 3 && photosOfInterest.next.map((photo, index) => {
         return (
           <PhotoSet index={index} photo={photo}/>
           )
