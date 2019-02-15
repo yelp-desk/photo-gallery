@@ -7,12 +7,10 @@ import PhotoSet from './PhotoSet.jsx';
 function App() {
   const initialState = {previous: [], current: [], next: [], mainPhoto: 0}
   function reducer (state, action) {
-    console.log(state);
     let photoNum;
     switch (action.type) {
       case 'next':
         let array = makePhotoArray((state.mainPhoto + 2) % photos.length)
-        console.log(array, 'hi');
         if (state.mainPhoto === photos.length - 1) {
           photoNum = 0
         } else {
@@ -53,6 +51,7 @@ function App() {
   const [restaurantId, updateId] =  useState(null); 
   const [photos, updatePhotos] = useState([]);
   const [photosOfInterest, dispatch] = useReducer(reducer, initialState);
+  const [stopwatch, updateWatch] = useState(false);
 
   useEffect(() => { //Loads a random restaurant ID upon loading the page, will be replaced when all modules are comined
     let newId = Math.floor(Math.random() * (100));
@@ -78,6 +77,7 @@ function App() {
     dispatch({type: ''});
   }, [photos]) //updates when photos is updated so that these may render
 
+  
   useEffect(() => {
     console.log('i ran!')
     let currentView = document.getElementById('currentView');
@@ -87,19 +87,22 @@ function App() {
         currentView.style.transitionDuration = ".2s, 0s"; //Removing the transition
         nextView.style.transitionDuration = ".2s, 0s";
         shiftNext();
-        
       }
     }
     currentView.addEventListener("transitionend", listener);
     var timer = setInterval(() => {
-      currentView.classList.replace('currentlyVisible', 'invisible')
-      nextView.classList.replace('invisible', 'currentlyVisible')
-    }, 5000);
+      if (stopwatch) {
+        clearInterval(timer);
+      } else {
+        currentView.classList.replace('currentlyVisible', 'invisible')
+        nextView.classList.replace('invisible', 'currentlyVisible')
+      }
+    }, 7000);
     return () => {
       removeEventListener("transitionend", listener);
       clearInterval(timer); //This makes the timer stop in case this useEffect is called before it concludes
     }
-  }, [])
+  }, [stopwatch])
 
   useEffect(() => {
     resetStyle();
@@ -108,7 +111,6 @@ function App() {
   
   function makePhotoArray(photoIndex) { //Makes an array of 3 photos to be visible via prev, current, or next
     let photoArray = [];
-   
     if (photoIndex === photos.length - 2) {
       photoArray = photos.slice(photoIndex, photoIndex + 2)
       photoArray.push(photos[0])
@@ -146,23 +148,32 @@ function App() {
     dispatch({type: 'previous'})
   }
 
+  function pauseTimer() {
+    updateWatch(true);
+  }
+
+  function restartTimer() {
+    updateWatch(false);
+  }
+
+
   return (
   <div id="slideShowContainer">
-    <div id="currentView" className="currentlyVisible">
+    <div id="currentView" className="currentlyVisible" onMouseEnter={pauseTimer} onMouseLeave={restartTimer}>
       {photosOfInterest.current.length === 3 && photosOfInterest.current.map((photo, index) => {
         return (
           <PhotoSet index={index} photo={photo}/>
         )
       })}   
     </div>
-    <div id="prevView" className="invisible">
+    <div id="prevView" className="invisible" onMouseEnter={pauseTimer} onMouseLeave={restartTimer}>
       {photosOfInterest.previous.length === 3 && photosOfInterest.previous.map((photo, index) => { //for some reason, it won't do prevs on its own, so i added the conditional
         return (
           <PhotoSet index={index} photo={photo}/>
         )
       })}
     </div>
-    <div id="nextView" className="invisible">
+    <div id="nextView" className="invisible" onMouseEnter={pauseTimer} onMouseLeave={restartTimer}>
       {photosOfInterest.next.length === 3 && photosOfInterest.next.map((photo, index) => {
         return (
           <PhotoSet index={index} photo={photo}/>

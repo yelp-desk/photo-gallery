@@ -13,9 +13,7 @@ function PhotoSet(props) {
   }, [expandedNum])
 
   function expandElement(event) { //Triggers on mouseover
-    // debugger;
     let target = event.target
-    console.log(event.target);
     target.removeAttribute('style');
     let photoNum = target.className;
     photoNum = photoNum.slice(photoNum.length - 1, photoNum.length);
