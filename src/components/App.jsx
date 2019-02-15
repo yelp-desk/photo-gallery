@@ -5,11 +5,13 @@ import PhotoSet from './PhotoSet.jsx';
 
 
 function App() {
-  const initialState = {previous: [], current: [], next: [], mainPhoto: 0}
-  function reducer (state, action) {
-    let photoNum;
-    switch (action.type) {
-      case 'next':
+
+  const initialState = {previous: [], current: [], next: [], mainPhoto: 0} 
+
+  function reducer (state, action) { //reducer and initial state are required for creating a reduce hook
+    let photoNum; //state always refers to the initialState object
+    switch (action.type) { //switch is basically a fancy if statement
+      case 'next': //basically this is if(action.type === 'next')
         let array = makePhotoArray((state.mainPhoto + 2) % photos.length)
         if (state.mainPhoto === photos.length - 1) {
           photoNum = 0
@@ -58,7 +60,7 @@ function App() {
     updateId(newId);
   }, []) //Runs every page load
   
-  useEffect(() => { //Loads the photos from said restaurant Id, will be updated to not use jquery
+  useEffect(() => { //Loads the photos from said restaurant Id
     fetch(`/api/photo-gallery-list/${restaurantId}`)
       .then((restData) => {
         console.log('we did it!');
@@ -78,48 +80,41 @@ function App() {
   }, [photos]) //updates when photos is updated so that these may render
 
   
-  useEffect(() => {
-    console.log('i ran!')
+  useEffect(() => { //This is creating the interval that causes fades
     let currentView = document.getElementById('currentView');
     let nextView = document.getElementById('nextView');
-    var listener = (event) => {
+    var listener = (event) => { //This needs to happen after the transition ends
       if (event.propertyName === 'opacity' && currentView.classList.contains('invisible')) {
         currentView.style.transitionDuration = ".2s, 0s"; //Removing the transition
-        nextView.style.transitionDuration = ".2s, 0s";
+        nextView.style.transitionDuration = ".2s, 0s"; //this is reset in resetStyle()
         shiftNext();
       }
     }
     currentView.addEventListener("transitionend", listener);
-    var timer = setInterval(() => {
-      if (stopwatch) {
+    var timer = setInterval(() => { //the interval of fading
+      if (stopwatch) { //Since this hook updates with stopwatch, it checks to see if it should pause the interval
         clearInterval(timer);
       } else {
         currentView.classList.replace('currentlyVisible', 'invisible')
         nextView.classList.replace('invisible', 'currentlyVisible')
       }
     }, 7000);
-    return () => {
+    return () => { //This runs every time this hook is re-run.  Prevents doubling up on listener and timer
       removeEventListener("transitionend", listener);
-      clearInterval(timer); //This makes the timer stop in case this useEffect is called before it concludes
+      clearInterval(timer);
     }
   }, [stopwatch])
 
   useEffect(() => {
     resetStyle();
-  }, [photosOfInterest])
-  
+  }, [photosOfInterest]) //When photosOfInterest updates, it resets the transitions to normal so that the hover effect can be used.  Trust me, this is how it has to be
   
   function makePhotoArray(photoIndex) { //Makes an array of 3 photos to be visible via prev, current, or next
     let photoArray = [];
-    if (photoIndex === photos.length - 2) {
-      photoArray = photos.slice(photoIndex, photoIndex + 2)
-      photoArray.push(photos[0])
-    } else if (photoIndex === photos.length - 1) {
-      photoArray = [photos[photoIndex]]
-      photoArray = photoArray.concat(photos.slice(0, 2))
-    } else {
-      photoArray = photos.slice(photoIndex, photoIndex + 3)
-    }
+    let length = photos.length;
+    photoArray = [photos[(length + photoIndex - 1) % length], 
+                  photos[(length + photoIndex) % length],
+                  photos[(length + photoIndex + 1) % length]]
     return photoArray;
   }
 
@@ -141,7 +136,7 @@ function App() {
   function shiftNext() {
     dispatch({type: 'next'})
     currentView.classList.replace('invisible', 'currentlyVisible'); //View changes back to the currentview div
-    nextView.classList.replace('currentlyVisible', 'invisible')
+    nextView.classList.replace('currentlyVisible', 'invisible'); //only here for the auto change
   }
 
   function shiftBack() {
@@ -160,28 +155,28 @@ function App() {
   return (
   <div id="slideShowContainer">
     <div id="currentView" className="currentlyVisible" onMouseEnter={pauseTimer} onMouseLeave={restartTimer}>
-      {photosOfInterest.current.length === 3 && photosOfInterest.current.map((photo, index) => {
+      {photosOfInterest.current.map((photo, index) => {
         return (
           <PhotoSet index={index} photo={photo}/>
         )
       })}   
     </div>
     <div id="prevView" className="invisible" onMouseEnter={pauseTimer} onMouseLeave={restartTimer}>
-      {photosOfInterest.previous.length === 3 && photosOfInterest.previous.map((photo, index) => { //for some reason, it won't do prevs on its own, so i added the conditional
+      {photosOfInterest.previous.map((photo, index) => {
         return (
           <PhotoSet index={index} photo={photo}/>
         )
       })}
     </div>
     <div id="nextView" className="invisible" onMouseEnter={pauseTimer} onMouseLeave={restartTimer}>
-      {photosOfInterest.next.length === 3 && photosOfInterest.next.map((photo, index) => {
+      {photosOfInterest.next.map((photo, index) => {
         return (
           <PhotoSet index={index} photo={photo}/>
           )
       })}
     </div>
-    <img className={`arrow prevArrow`} src='https://s3.amazonaws.com/yum-eats-photos/arrow.png' onClick={handleArrowClick}></img>
-    <img className={`arrow nextArrow`} src='https://s3.amazonaws.com/yum-eats-photos/arrow.png' onClick={handleArrowClick}></img>
+    <img className={`arrow prevArrow`} src='https://s3.amazonaws.com/yum-eats-photos/arrow.png' onClick={handleArrowClick} onMouseEnter={pauseTimer} onMouseLeave={restartTimer}></img>
+    <img className={`arrow nextArrow`} src='https://s3.amazonaws.com/yum-eats-photos/arrow.png' onClick={handleArrowClick} onMouseEnter={pauseTimer} onMouseLeave={restartTimer}></img>
   </div>
   )
 }
