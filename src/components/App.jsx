@@ -12,7 +12,6 @@ function App() {
     let photoNum; //state always refers to the initialState object
     switch (action.type) { //switch is basically a fancy if statement
       case 'next': //basically this is if(action.type === 'next')
-        let array = makePhotoArray((state.mainPhoto + 2) % photos.length)
         if (state.mainPhoto === photos.length - 1) {
           photoNum = 0
         } else {

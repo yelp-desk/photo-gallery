@@ -1,0 +1,99 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<coverage generated="1550285292381" clover="3.2.0">
+  <project timestamp="1550285292381" name="All files">
+    <metrics statements="87" coveredstatements="21" conditionals="25" coveredconditionals="0" methods="27" coveredmethods="6" elements="139" coveredelements="27" complexity="0" loc="87" ncloc="87" packages="1" files="2" classes="2"/>
+    <file name="App.jsx" path="/Users/alex/Documents/hrsf110/Front End Capstone Project/photo-gallery/src/components/App.jsx">
+      <metrics statements="69" coveredstatements="21" conditionals="19" coveredconditionals="0" methods="23" coveredmethods="6"/>
+      <line num="9" count="1" type="stmt"/>
+      <line num="13" count="0" type="cond" truecount="0" falsecount="3"/>
+      <line num="15" count="0" type="cond" truecount="0" falsecount="2"/>
+      <line num="16" count="0" type="stmt"/>
+      <line num="18" count="0" type="stmt"/>
+      <line num="20" count="0" type="stmt"/>
+      <line num="27" count="0" type="cond" truecount="0" falsecount="2"/>
+      <line num="28" count="0" type="stmt"/>
+      <line num="30" count="0" type="stmt"/>
+      <line num="32" count="0" type="stmt"/>
+      <line num="39" count="0" type="cond" truecount="0" falsecount="4"/>
+      <line num="40" count="0" type="stmt"/>
+      <line num="42" count="0" type="stmt"/>
+      <line num="52" count="1" type="stmt"/>
+      <line num="53" count="1" type="stmt"/>
+      <line num="54" count="1" type="stmt"/>
+      <line num="55" count="1" type="stmt"/>
+      <line num="57" count="1" type="stmt"/>
+      <line num="58" count="1" type="stmt"/>
+      <line num="59" count="1" type="stmt"/>
+      <line num="62" count="1" type="stmt"/>
+      <line num="63" count="1" type="stmt"/>
+      <line num="65" count="0" type="stmt"/>
+      <line num="66" count="0" type="stmt"/>
+      <line num="69" count="0" type="stmt"/>
+      <line num="72" count="1" type="stmt"/>
+      <line num="76" count="1" type="stmt"/>
+      <line num="77" count="1" type="stmt"/>
+      <line num="78" count="1" type="stmt"/>
+      <line num="82" count="1" type="stmt"/>
+      <line num="83" count="1" type="stmt"/>
+      <line num="84" count="1" type="stmt"/>
+      <line num="85" count="1" type="stmt"/>
+      <line num="86" count="0" type="cond" truecount="0" falsecount="4"/>
+      <line num="87" count="0" type="stmt"/>
+      <line num="88" count="0" type="stmt"/>
+      <line num="89" count="0" type="stmt"/>
+      <line num="92" count="1" type="stmt"/>
+      <line num="93" count="0" type="stmt"/>
+      <line num="94" count="0" type="cond" truecount="0" falsecount="2"/>
+      <line num="95" count="0" type="stmt"/>
+      <line num="97" count="0" type="stmt"/>
+      <line num="98" count="0" type="stmt"/>
+      <line num="101" count="0" type="stmt"/>
+      <line num="102" count="0" type="stmt"/>
+      <line num="103" count="0" type="stmt"/>
+      <line num="107" count="1" type="stmt"/>
+      <line num="108" count="0" type="stmt"/>
+      <line num="112" count="0" type="stmt"/>
+      <line num="113" count="0" type="stmt"/>
+      <line num="114" count="0" type="stmt"/>
+      <line num="117" count="0" type="stmt"/>
+      <line num="121" count="0" type="cond" truecount="0" falsecount="2"/>
+      <line num="122" count="0" type="stmt"/>
+      <line num="124" count="0" type="stmt"/>
+      <line num="129" count="0" type="stmt"/>
+      <line num="130" count="0" type="stmt"/>
+      <line num="131" count="0" type="stmt"/>
+      <line num="132" count="0" type="stmt"/>
+      <line num="136" count="0" type="stmt"/>
+      <line num="137" count="0" type="stmt"/>
+      <line num="138" count="0" type="stmt"/>
+      <line num="142" count="0" type="stmt"/>
+      <line num="146" count="0" type="stmt"/>
+      <line num="150" count="0" type="stmt"/>
+      <line num="154" count="1" type="stmt"/>
+      <line num="158" count="0" type="stmt"/>
+      <line num="165" count="0" type="stmt"/>
+      <line num="172" count="0" type="stmt"/>
+    </file>
+    <file name="PhotoSet.jsx" path="/Users/alex/Documents/hrsf110/Front End Capstone Project/photo-gallery/src/components/PhotoSet.jsx">
+      <metrics statements="18" coveredstatements="0" conditionals="6" coveredconditionals="0" methods="4" coveredmethods="0"/>
+      <line num="4" count="0" type="stmt"/>
+      <line num="6" count="0" type="stmt"/>
+      <line num="7" count="0" type="stmt"/>
+      <line num="8" count="0" type="cond" truecount="0" falsecount="2"/>
+      <line num="9" count="0" type="stmt"/>
+      <line num="10" count="0" type="stmt"/>
+      <line num="11" count="0" type="stmt"/>
+      <line num="16" count="0" type="stmt"/>
+      <line num="17" count="0" type="stmt"/>
+      <line num="18" count="0" type="stmt"/>
+      <line num="19" count="0" type="stmt"/>
+      <line num="20" count="0" type="cond" truecount="0" falsecount="2"/>
+      <line num="21" count="0" type="stmt"/>
+      <line num="26" count="0" type="stmt"/>
+      <line num="29" count="0" type="stmt"/>
+      <line num="30" count="0" type="cond" truecount="0" falsecount="2"/>
+      <line num="31" count="0" type="stmt"/>
+      <line num="34" count="0" type="stmt"/>
+    </file>
+  </project>
+</coverage>
