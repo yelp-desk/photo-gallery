@@ -11,9 +11,6 @@ module.exports = {
       {
         test: /\.jsx?/,
         loader: 'babel-loader',
-        query: {
-          presets: ['@babel/react', '@babel/env']
-        }
       },
       {
         test: /\.css$/,

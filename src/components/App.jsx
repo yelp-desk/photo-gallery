@@ -75,7 +75,7 @@ function App() {
   }, [restaurantId]) //Only runs when restaurantId is updated
 
   useEffect(() => { //The array of all possibly visible photos
-    console.log('photos were updated');
+    console.log('photos were updated', photos.length);
     dispatch({type: ''});
   }, [photos]) //updates when photos is updated so that these may render
 

@@ -9,7 +9,10 @@
   "scripts": {
     "start": "nodemon server/index.js",
     "build": "webpack --config webpack.config.js --watch -d",
-    "make": "node seed/db-seed.js"
+    "make": "node seed/db-seed.js",
+    "test": "jest --updateSnapshot || true",
+    "test:watch": "jest --watch --updateSnapshot || true",
+    "test:coverage": "jest --coverage --colors --updateSnapshot || true"
   },
   "dependencies": {
     "body-parser": "^1.18.3",
@@ -32,18 +35,24 @@
     "babel-cli": "^6.26.0",
     "babel-core": "^6.26.3",
     "babel-eslint": "^10.0.1",
+    "babel-jest": "^24.1.0",
     "babel-loader": "^8.0.5",
     "css-loader": "^2.1.0",
+    "enzyme": "^3.8.0",
+    "enzyme-adapter-react-16": "^1.9.1",
     "eslint": "^5.13.0",
     "eslint-config-airbnb": "^17.1.0",
     "eslint-config-hackreactor": "git://github.com/reactorcore/eslint-config-hackreactor.git",
     "eslint-plugin-import": "^2.16.0",
     "eslint-plugin-jsx-a11y": "^6.2.1",
     "eslint-plugin-react": "^7.12.4",
+    "jest": "^24.1.0",
     "react": "^16.8.1",
     "react-dom": "^16.8.1",
+    "react-testing-library": "^5.8.0",
     "style-loader": "^0.23.1",
-    "webpack-cli": "^3.2.3"
+    "webpack-cli": "^3.2.3",
+    "whatwg-fetch": "^3.0.0"
   },
   "version": "1.0.0",
   "main": "index.js",
