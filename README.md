@@ -19,6 +19,7 @@
 
 Start up your mongodb server with 'mongod'
 npm make ("node seed/db-seed.js") to populate your database
+  NOTE: Due to the use of string.prototype.padStart(), you must have node version 8.0.0 or higher
 npm start ("nodemon server/index.js") to start your server
 
 ## Requirements
