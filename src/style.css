@@ -73,6 +73,7 @@
 
 [class*="photoContainer 1"] {
   left: 33.3%;
+  z-index: 51;
 }
 
 [class*="photoContainer 2"] {
