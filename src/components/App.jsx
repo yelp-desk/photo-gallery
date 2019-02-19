@@ -12,7 +12,6 @@ function App() {
     let photoNum; //state always refers to the initialState object
     switch (action.type) { //switch is basically a fancy if statement
       case 'next': //basically this is if(action.type === 'next')
-        let array = makePhotoArray((state.mainPhoto + 2) % photos.length)
         if (state.mainPhoto === photos.length - 1) {
           photoNum = 0
         } else {
@@ -85,8 +84,7 @@ function App() {
     let nextView = document.getElementById('nextView');
     var listener = (event) => { //This needs to happen after the transition ends
       if (event.propertyName === 'opacity' && currentView.classList.contains('invisible')) {
-        currentView.style.transitionDuration = ".2s, 0s"; //Removing the transition
-        nextView.style.transitionDuration = ".2s, 0s"; //this is reset in resetStyle()
+        removeTransition();
         shiftNext();
       }
     }
@@ -124,6 +122,13 @@ function App() {
     } else {
       shiftBack();
     }
+  }
+
+  function removeTransition() {
+    let currentView = document.getElementById('currentView');
+    let nextView = document.getElementById('nextView');
+    currentView.style.transitionDuration = ".2s, 0s"; //Removing the transition
+    nextView.style.transitionDuration = ".2s, 0s"; //this is reset in resetStyle()
   }
   
   function resetStyle() {
