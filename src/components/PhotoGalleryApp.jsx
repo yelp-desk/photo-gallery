@@ -60,7 +60,7 @@ function PhotoGalleryApp() {
   }, []) //Runs every page load
   
   useEffect(() => { //Loads the photos from said restaurant Id
-    fetch(`/api/photo-gallery-list/${restaurantId}`)
+    fetch(`http://localhost:3003/api/photo-gallery-list/${restaurantId}`)
       .then((restData) => {
         console.log('we did it!');
         return restData.json();
