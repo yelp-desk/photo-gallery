@@ -2,7 +2,7 @@ import React from 'react';
 import ReactDOM from 'react-dom';
 import { act } from 'react-dom/test-utils';
 import ReactTestUtils from 'react-dom/test-utils'
-import App from '../src/components/App.jsx';
+import App from '../src/components/PhotoGalleryApp.jsx/index.js';
 import {
   render,
   fireEvent,
@@ -55,7 +55,7 @@ let data = {
 it('work part 2', async () => {
   fetch.mockResponse(JSON.stringify(data));
   const {getByText, getByTestId, container, asFragment} = render(
-    <App />,
+    <PhotoGalleryApp />,
   );
 
   var gallery = await waitForElement(() => {

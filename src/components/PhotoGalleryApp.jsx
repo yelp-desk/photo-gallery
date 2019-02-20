@@ -4,7 +4,7 @@ import PhotoSet from './PhotoSet.jsx';
 //takes about a second to transition and about every 5-8 seconds is when it does it.
 
 
-function App() {
+function PhotoGalleryApp() {
 
   const initialState = {previous: [], current: [], next: [], mainPhoto: 0} 
 
@@ -186,4 +186,4 @@ function App() {
   )
 }
 
-export default App;
+export default PhotoGalleryApp;
