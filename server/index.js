@@ -29,7 +29,6 @@ app.post('/api/photo-gallery-list-add/:restId', (req, res) => { //Probably won't
     if (err) {
       res.sendStatus(500);
     } else {
-      res.setHeader('Access-Control-Allow-Origin', '*')
       res.sendStatus(200);
     }
   });
@@ -40,6 +39,7 @@ app.get('/api/photo-gallery-list/:restId', (req, res) => { //The main bad boy to
     if (err) {
       res.sendStatus(500);
     } else {
+      res.setHeader('Access-Control-Allow-Origin', '*')
       res.json(result);
     }
   });
