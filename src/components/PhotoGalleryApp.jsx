@@ -54,12 +54,13 @@ function PhotoGalleryApp() {
   const [photosOfInterest, dispatch] = useReducer(reducer, initialState);
   const [stopwatch, updateWatch] = useState(false);
 
-  useEffect(() => { //Loads a random restaurant ID upon loading the page, will be replaced when all modules are comined
-    let newId = Math.floor(Math.random() * (100));
-    updateId(newId);
-  }, []) //Runs every page load
+  // useEffect(() => { //Loads a random restaurant ID upon loading the page, will be replaced when all modules are comined
+  //   let newId = Math.floor(Math.random() * (100));
+  //   updateId(newId);
+  // }, []) //Runs every page load
   
   useEffect(() => { //Loads the photos from said restaurant Id
+    var restarantId = window.location.href.slice(22);
     fetch(`http://localhost:3003/api/photo-gallery-list/${restaurantId}`)
       .then((restData) => {
         console.log('we did it!');
@@ -71,7 +72,7 @@ function PhotoGalleryApp() {
       .catch((err) => {
         console.log('something went wrong', err);
       })
-  }, [restaurantId]) //Only runs when restaurantId is updated
+  }, []) //Only runs when restaurantId is updated
 
   useEffect(() => { //The array of all possibly visible photos
     console.log('photos were updated', photos.length);

@@ -6,8 +6,14 @@ WORKDIR /src/app
 
 COPY . /src/app
 
-RUN yarn install
+COPY package.json .
+
+RUN npm install --quiet
+
+RUN yarn global add nodemon
 
 EXPOSE 3003
 
-CMD [ "npm", "start" ]
+# RUN npm run make
+
+CMD [ "npm", "run", "start:andSeed" ]

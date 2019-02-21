@@ -12,7 +12,8 @@
     "make": "node seed/db-seed.js",
     "test": "jest --updateSnapshot || true",
     "test:watch": "jest --watch --updateSnapshot || true",
-    "test:coverage": "jest --coverage --colors --updateSnapshot || true"
+    "test:coverage": "jest --coverage --colors --updateSnapshot || true",
+    "start:andSeed": "node seed/db-seed.js && nodemon server/index.js"
   },
   "dependencies": {
     "body-parser": "^1.18.3",

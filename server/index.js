@@ -35,6 +35,7 @@ app.post('/api/photo-gallery-list-add/:restId', (req, res) => { //Probably won't
 });
 
 app.get('/api/photo-gallery-list/:restId', (req, res) => { //The main bad boy to load initially
+  console.log('this is a test', req.params);
   grabPhotosFromOne(req.params.restId, (err, result) => {
     if (err) {
       res.sendStatus(500);
