@@ -16,4 +16,4 @@ EXPOSE 3003
 
 # RUN npm run make
 
-CMD [ "npm", "run", "start:andSeed" ]
+CMD [ "npm", "run", "start:BuildandSeed" ]

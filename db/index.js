@@ -2,7 +2,9 @@ let mongoose = require('mongoose');
 
 console.log('is this thing on?');
 
-mongoose.connect('mongodb://172.17.0.2:27017/photo-gallery-container');
+// mongoose.connect('mongodb://172.17.0.2:27017/photo-gallery-container');
+
+mongoose.connect('mongodb://localhost:27017/photo-gallery-container');
 
 
 const PhotoSchema = new mongoose.Schema({

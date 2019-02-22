@@ -49,7 +49,6 @@ function PhotoGalleryApp() {
     }
   }
 
-  const [restaurantId, updateId] =  useState(null); 
   const [photos, updatePhotos] = useState([]);
   const [photosOfInterest, dispatch] = useReducer(reducer, initialState);
   const [stopwatch, updateWatch] = useState(false);
@@ -60,8 +59,17 @@ function PhotoGalleryApp() {
   // }, []) //Runs every page load
   
   useEffect(() => { //Loads the photos from said restaurant Id
-    var restarantId = window.location.href.slice(22);
-    fetch(`http://localhost:3003/api/photo-gallery-list/${restaurantId}`)
+    let param = window.location.pathname.slice(1);
+    let restaurantId = '';
+    for(var i = 0; i < 4; i++) {
+      if (param.charAt(i) !== '/') {
+        restaurantId+= param.charAt(i);
+      }
+      else {
+        break;
+      }
+    }
+    fetch(`/api/photo-gallery-list/${restaurantId}`)
       .then((restData) => {
         console.log('we did it!');
         return restData.json();
@@ -72,7 +80,7 @@ function PhotoGalleryApp() {
       .catch((err) => {
         console.log('something went wrong', err);
       })
-  }, []) //Only runs when restaurantId is updated
+  }, [restaurantId]) //Only runs when restaurantId is updated
 
   useEffect(() => { //The array of all possibly visible photos
     console.log('photos were updated', photos.length);
