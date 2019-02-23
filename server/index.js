@@ -4,15 +4,16 @@ const createList = require('../db/index.js').createList;
 const addPhotos = require('../db/index.js').addPhotos;
 const grabPhotosFromOne = require('../db/index.js').grabPhotosFromOne;
 const grabPhotosFromAll = require('../db/index.js').grabPhotosFromAll;
-
-
-
-const app = express();
-
-app.use(express.static(__dirname + '/../dist'));
+const path = require('path');
 
 const PORT = 3003;
+const app = express();
+
+app.use(express.static(path.join(__dirname, '/../dist')));
+
 app.use(bodyParser.json());
+
+
 
 app.post('/api/photo-gallery-list-add', (req, res) => { //Used to populate page, or, in a real scenario, creating a page's initial batch of photos
   createList(req.body, (err, result) => {
@@ -53,6 +54,10 @@ app.get('/api/photo-gallery-list', (req, res) => { //Just for testing subsequent
       res.json(result);
     }
   });
+});
+
+app.use( '*', (req, res) => {
+  res.sendFile(path.join(__dirname, '/../dist/index.html'))//`${__dirname}/../dist/index.html`)
 });
 
 app.listen(PORT, () => {

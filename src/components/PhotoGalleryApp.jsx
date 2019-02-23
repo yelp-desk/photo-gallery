@@ -49,18 +49,25 @@ function PhotoGalleryApp() {
     }
   }
 
-  const [restaurantId, updateId] =  useState(null); 
   const [photos, updatePhotos] = useState([]);
   const [photosOfInterest, dispatch] = useReducer(reducer, initialState);
   const [stopwatch, updateWatch] = useState(false);
-
-  useEffect(() => { //Loads a random restaurant ID upon loading the page, will be replaced when all modules are comined
-    let newId = Math.floor(Math.random() * (100));
-    updateId(newId);
-  }, []) //Runs every page load
   
   useEffect(() => { //Loads the photos from said restaurant Id
-    fetch(`http://localhost:3003/api/photo-gallery-list/${restaurantId}`)
+    let param = window.location.pathname.slice(1);
+    let restaurantId = '';
+    for(var i = 0; i < 4; i++) {
+      if (param.charAt(i) !== '/') {
+        restaurantId+= param.charAt(i);
+      }
+      else {
+        break;
+      }
+    }
+    if (restaurantId.length === 0 || Number(restaurantId) > 100 || Number(restaurantId) < 0) {
+      restaurantId = 1;
+    }
+    fetch(`http://ec2-3-84-81-19.compute-1.amazonaws.com/api/photo-gallery-list/${restaurantId}`)
       .then((restData) => {
         console.log('we did it!');
         return restData.json();
@@ -71,7 +78,7 @@ function PhotoGalleryApp() {
       .catch((err) => {
         console.log('something went wrong', err);
       })
-  }, [restaurantId]) //Only runs when restaurantId is updated
+  }, []) //Only runs when restaurantId is updated
 
   useEffect(() => { //The array of all possibly visible photos
     console.log('photos were updated', photos.length);
@@ -155,7 +162,6 @@ function PhotoGalleryApp() {
   function restartTimer() {
     updateWatch(false);
   }
-
 
   return (
   <div id="slideShowContainer">
