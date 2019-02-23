@@ -84,34 +84,33 @@ function PhotoGalleryApp() {
     console.log('photos were updated', photos.length);
     dispatch({type: ''});
   }, [photos]) //updates when photos is updated so that these may render
-
   
   useEffect(() => { //This is creating the interval that causes fades
     let currentView = document.getElementById('currentView');
     let nextView = document.getElementById('nextView');
     var listener = (event) => { //This needs to happen after the transition ends
-      if (event.propertyName === 'opacity' && currentView.classList.contains('invisible')) {
-        removeTransition();
-        shiftNext();
-      }
+      console.log(event);
+      currentView.classList.remove('currentlyVisible')
+      nextView.classList.remove('invisible')
+      shiftNext();
     }
-    currentView.addEventListener("transitionend", listener);
+    currentView.addEventListener("animationend", listener);
     var timer = setInterval(() => { //the interval of fading
       if (stopwatch) { //Since this hook updates with stopwatch, it checks to see if it should pause the interval
         clearInterval(timer);
       } else {
-        currentView.classList.replace('currentlyVisible', 'invisible')
-        nextView.classList.replace('invisible', 'currentlyVisible')
+        currentView.classList.add('currentlyVisible');
+        nextView.classList.add('invisible');
       }
     }, 7000);
     return () => { //This runs every time this hook is re-run.  Prevents doubling up on listener and timer
-      removeEventListener("transitionend", listener);
+      currentView.removeEventListener("animationend", listener);
       clearInterval(timer);
     }
   }, [stopwatch])
 
   useEffect(() => {
-    resetStyle();
+    // resetStyle();
   }, [photosOfInterest]) //When photosOfInterest updates, it resets the transitions to normal so that the hover effect can be used.  Trust me, this is how it has to be
   
   function makePhotoArray(photoIndex) { //Makes an array of 3 photos to be visible via prev, current, or next
@@ -131,24 +130,8 @@ function PhotoGalleryApp() {
     }
   }
 
-  function removeTransition() {
-    let currentView = document.getElementById('currentView');
-    let nextView = document.getElementById('nextView');
-    currentView.style.transitionDuration = ".2s, 0s"; //Removing the transition
-    nextView.style.transitionDuration = ".2s, 0s"; //this is reset in resetStyle()
-  }
-  
-  function resetStyle() {
-    let currentView = document.getElementById('currentView');
-    let nextView = document.getElementById('nextView');
-    currentView.removeAttribute('style') 
-    nextView.removeAttribute('style')
-  }
-
   function shiftNext() {
     dispatch({type: 'next'})
-    currentView.classList.replace('invisible', 'currentlyVisible'); //View changes back to the currentview div
-    nextView.classList.replace('currentlyVisible', 'invisible'); //only here for the auto change
   }
 
   function shiftBack() {
@@ -165,21 +148,21 @@ function PhotoGalleryApp() {
 
   return (
   <div id="slideShowContainer">
-    <div id="currentView" className="currentlyVisible" onMouseEnter={pauseTimer} onMouseLeave={restartTimer}>
+    <div id="currentView" onMouseEnter={pauseTimer} onMouseLeave={restartTimer}>
       {photosOfInterest.current.map((photo, index) => {
         return (
           <PhotoSet index={index} photo={photo}/>
         )
       })}   
     </div>
-    <div id="prevView" className="invisible" onMouseEnter={pauseTimer} onMouseLeave={restartTimer}>
+    <div id="prevView" onMouseEnter={pauseTimer} onMouseLeave={restartTimer}>
       {photosOfInterest.previous.map((photo, index) => {
         return (
           <PhotoSet index={index} photo={photo}/>
         )
       })}
     </div>
-    <div id="nextView" className="invisible" onMouseEnter={pauseTimer} onMouseLeave={restartTimer}>
+    <div id="nextView" onMouseEnter={pauseTimer} onMouseLeave={restartTimer}>
       {photosOfInterest.next.map((photo, index) => {
         return (
           <PhotoSet index={index} photo={photo}/>
