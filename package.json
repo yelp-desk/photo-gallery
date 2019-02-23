@@ -9,11 +9,12 @@
   "scripts": {
     "start": "nodemon server/index.js",
     "build": "webpack --config webpack.config.js --watch -d",
+    "build:production": "webpack --config webpack.config.js -p",
     "make": "node seed/db-seed.js",
     "test": "jest --updateSnapshot || true",
     "test:watch": "jest --watch --updateSnapshot || true",
     "test:coverage": "jest --coverage --colors --updateSnapshot || true",
-    "start:BuildandSeed": "webpack --config webpack.config.js -d && node seed/db-seed.js && nodemon server/index.js"
+    "start:BuildandSeed": "webpack --config webpack.config.js -p && node seed/db-seed.js && nodemon server/index.js"
   },
   "dependencies": {
     "body-parser": "^1.18.3",
