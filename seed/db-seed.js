@@ -19,14 +19,14 @@ const PhotoList = mongoose.model('PhotoList', db.PhotoListSchema);
         img: `https://s3.amazonaws.com/yum-eats-photos/${randomNum(100).toString().padStart(3, '0')}.jpg`,
         caption: faker.random.words(),
         date: `${randomNum(12)}-${randomNum(31)}-${randomNum(19, 0)}`,
-        helpfulRates: randomNum(100), 
-        unhelpfulRates: randomNum(100),
+        // helpfulRates: randomNum(100), 
+        // unhelpfulRates: randomNum(100),
         posterInfo: { 
           avatar: faker.image.avatar(),
           username: names[randomNum(names.length - 1, 0)],
-          friends: randomNum(1000),
-          stars: randomNum(1000),
-          profile: faker.internet.url()
+          // friends: randomNum(1000),
+          // stars: randomNum(1000),
+          // profile: faker.internet.url()
         },
       }
       photosArray.push(obj); //adds random photo to an array
