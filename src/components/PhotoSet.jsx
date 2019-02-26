@@ -1,14 +1,17 @@
 import React, { useState, useEffect } from 'react';
-
 function PhotoSet(props) {
   const [expandedNum, updateExpandedNum] = useState(1);
 
   useEffect(() => { //Manages which photo receives the hoverEffect based on the num on expandedNum
-    let main = document.getElementsByClassName(`photoContainer ${expandedNum}`)[0];
-    if (main) {
-      let old = document.getElementsByClassName('hoverEffect')[0];
-      old.classList.toggle('hoverEffect');
-      main.classList.toggle('hoverEffect');
+    let main = document.getElementsByClassName(`photoContainer ${expandedNum}`);
+    if (main.length > 0) {
+      let old = document.getElementsByClassName('hoverEffect');
+      while (old.length > 0) {
+        old[0].classList.remove('hoverEffect');
+      }
+      for (var i = 0; i < main.length; i++) {
+        main[i].classList.add('hoverEffect');
+      }
     }
   }, [expandedNum])
 
@@ -26,10 +29,8 @@ function PhotoSet(props) {
     updateExpandedNum(1);
   }
 
- let photoContainerClass = `photoContainer ${props.index}`
-  if (props.index === 1) { //Ensures that photo 1 is expanded by default
-    photoContainerClass = photoContainerClass + ' hoverEffect'
-  }
+
+  let photoContainerClass = `photoContainer ${props.index}`
 
   return (
     <div className={photoContainerClass} onMouseEnter={expandElement} onMouseLeave={shrinkElement}>
