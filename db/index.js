@@ -11,14 +11,14 @@ const PhotoSchema = new mongoose.Schema({
   img: String, /*a link to img on S3 server*/
   caption: String,
   date: Date, //Will order them by either this
-  helpfulRates: Number, //Or this
-  unhelpfulRates: Number,
+  // helpfulRates: Number, //Or this
+  // unhelpfulRates: Number,
   posterInfo: {
     avatar: String, //also to an img,
     username: String,
-    friends: Number,
-    stars: Number,
-    profile: String //link to profile
+    // friends: Number,
+    // stars: Number,
+    // profile: String //link to profile
   },
 });
 

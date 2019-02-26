@@ -6,18 +6,12 @@ function PhotoSet(props) {
     let main = document.getElementsByClassName(`photoContainer ${expandedNum}`);
     if (main.length > 0) {
       let old = document.getElementsByClassName('hoverEffect');
-      console.log(old, 'old')
-      console.log(main, 'main')
       while (old.length > 0) {
         old[0].classList.remove('hoverEffect');
       }
       for (var i = 0; i < main.length; i++) {
         main[i].classList.add('hoverEffect');
       }
-      console.log(old, 'old after');
-      console.log(main, 'main after');
-      // old.classList.toggle('hoverEffect');
-      // main.classList.toggle('hoverEffect');
     }
   }, [expandedNum])
 
@@ -37,10 +31,6 @@ function PhotoSet(props) {
 
 
   let photoContainerClass = `photoContainer ${props.index}`
-  // debugger;
-  // if (props.index === 1) { //Ensures that photo 1 is expanded by default
-  //   photoContainerClass = photoContainerClass + ' hoverEffect'
-  // }
 
   return (
     <div className={photoContainerClass} onMouseEnter={expandElement} onMouseLeave={shrinkElement}>

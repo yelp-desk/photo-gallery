@@ -76,7 +76,7 @@ function PhotoGalleryApp() {
         updatePhotos(data.photos);
       })
       .catch((err) => {
-        console.log('something went wrong', err);
+        console.log('something went wrong fetching photos', err);
       })
   }, []) //Only runs when restaurantId is updated
 
@@ -89,7 +89,6 @@ function PhotoGalleryApp() {
     let currentView = document.getElementById('currentView');
     let nextView = document.getElementById('nextView');
     var listener = (event) => { //This needs to happen after the transition ends
-      console.log(event);
       currentView.classList.remove('currentlyVisible')
       nextView.classList.remove('invisible')
       shiftNext();
